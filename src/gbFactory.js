@@ -1,6 +1,11 @@
 import shipFactory from './shipFactory';
 
 const gameboardFactory = () => {
+  const sunkShips = [];
+  let s1;
+  let s2;
+  let s3;
+  let s4;
   const board = [
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
@@ -34,12 +39,51 @@ const gameboardFactory = () => {
     return shipCoords;
   };
   const receiveAttack = (obj) => {
-    board[obj.y][obj.y] = 'm';
+    // m = miss, h = hit
+    if (board[obj.y][obj.x] === '') {
+      board[obj.y][obj.x] = 'm';
+    }
+    // check if a boat 's1', 's2'... is in the square
+    if (/[s]\d/.test(board[obj.y][obj.x]) === true) {
+      const hitShip = board[obj.y][obj.x];
+      board[obj.y][obj.x] = 'h';
+      switch (hitShip) {
+        case 's1':
+          s1.setHit(obj.y, obj.x);
+          // console.log(s1.getHits());
+          if (s1.isSunk() === true) {
+            sunkShips.push('s1');
+          }
+          break;
+        case 's2':
+          s2.setHit(obj.y, obj.x);
+          if (s2.isSunk() === true) {
+            sunkShips.push('s2');
+          }
+          break;
+        case 's3':
+          s3.setHit(obj.y, obj.x);
+          if (s3.isSunk() === true) {
+            sunkShips.push('s3');
+          }
+          break;
+        case 's4':
+          s4.setHit(obj.y, obj.x);
+          if (s4.isSunk() === true) {
+            sunkShips.push('s4');
+          }
+          break;
+        default:
+          console.log('Error, no ship matched');
+      }
+    }
+    // console.table(board);
   };
   const setup = () => {
     const s1Coords = placeShip('s1', 4, 0, 2, 'v');
-    const s1 = shipFactory(4, s1Coords);
-    placeShip('s2', 2, 1, 4, 'h');
+    const s2Coords = placeShip('s2', 2, 1, 4, 'h');
+    s1 = shipFactory(4, s1Coords);
+    s2 = shipFactory(2, s2Coords);
     return board;
   };
   const getBoard = () => board;
@@ -48,6 +92,7 @@ const gameboardFactory = () => {
     placeShip,
     setup,
     getBoard,
+    sunkShips,
   };
 };
 
