@@ -18,6 +18,13 @@ const gameboardFactory = () => {
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
   ];
+  const areAllShipsSunk = () => {
+    // set number of ships
+    if (sunkShips.length >= 2) {
+      return true;
+    }
+    return false;
+  };
   const placeShip = (name, size, y, x, direction) => {
     const shipCoords = [];
     if (direction === 'v') {
@@ -93,6 +100,7 @@ const gameboardFactory = () => {
     setup,
     getBoard,
     sunkShips,
+    areAllShipsSunk,
   };
 };
 

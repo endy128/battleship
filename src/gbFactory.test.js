@@ -57,4 +57,9 @@ describe('Gameboard attack system works', () => {
     board.receiveAttack({ y: 3, x: 2 });
     expect(board.sunkShips).toStrictEqual(['s1']);
   });
+  test('The gameboard can check if all ships are sunk', () => {
+    board.receiveAttack({ y: 1, x: 4 });
+    board.receiveAttack({ y: 1, x: 5 });
+    expect(board.areAllShipsSunk()).toStrictEqual(true);
+  });
 });
