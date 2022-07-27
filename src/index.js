@@ -1,3 +1,4 @@
-import gameboardFactory from './gbFactory';
+import { drawBoard } from './dom';
 
-gameboardFactory().setup();
+drawBoard('p1');
+drawBoard('p2');
