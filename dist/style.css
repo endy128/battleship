@@ -6,9 +6,6 @@
 html,
 body {
   background-color: gainsboro;
-  /* display: flex; */
-  /* height: 100%; */
-  /* width: 100%; */
   justify-content: center;
 }
 
@@ -24,18 +21,11 @@ h1 {
 .game {
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
 }
 
 .square {
-  /* height: 20px;
-  width: 20px; */
-  background-color: aliceblue;
+  background-color: rgb(111, 161, 204);
 }
-
-/* .row {
-  display: flex;
-} */
 
 .container {
   display: flex;
@@ -52,12 +42,28 @@ h1 {
   gap: 2px;
   background-color: gray;
   border: 2px solid gray;
+  border-radius: 4px;
+}
+
+button {
+  background: none;
+  width: 100%;
+  border: none;
+  height: 100%;
+  width: 100%;
 }
 
 .fire {
   display: flex;
   justify-content: center;
+  margin-top: 12px;
+  background: none;
+  border: 1px solid black;
+  border-radius: 4px;  
+  height: 50px;
+  align-items: center;
 }
+
 
 
 
