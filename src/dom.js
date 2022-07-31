@@ -11,12 +11,17 @@ const drawBoard = (player) => {
   }
 };
 
-const drawSquareContents = (player, board) => {
+const drawSquareContents = (player, board, areShipsHidden) => {
   board.forEach((array, coordY) => {
     array.forEach((element, coordX) => {
       const y = coordY;
       const x = coordX;
       const div = document.querySelector(`.${player} [data-y="${y}"][data-x="${x}"]`);
+      if (areShipsHidden === true) {
+        if (/[s]\d/.test(element)) {
+          return;
+        }
+      }
       div.textContent = element;
     });
   });
@@ -29,7 +34,7 @@ const playerEventListeners = (p1, p2Board, p2, p1Board) => {
       const squareY = e.target.dataset.y;
       const squareX = e.target.dataset.x;
       p1.attack(p2Board, { y: squareY, x: squareX });
-      drawSquareContents('p2', p2Board.getBoard());
+      drawSquareContents('p2', p2Board.getBoard(), true);
       if (p2Board.areAllShipsSunk() === true) {
         console.log('All P2 ships SUNK!!');
         return;

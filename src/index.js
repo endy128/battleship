@@ -18,7 +18,7 @@ const initaliseGame = () => {
   // player2.autoAttack(p1Board);
   drawSquareContents('p1', p1Board.getBoard());
   // just for testing, see the CPUs board
-  drawSquareContents('p2', p2Board.getBoard());
+  drawSquareContents('p2', p2Board.getBoard(), true);
   playerEventListeners(player1, p2Board, player2, p1Board);
   // while (isWon === false) {
   //   if (playerTurn === 'p1') {
