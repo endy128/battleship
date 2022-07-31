@@ -23,7 +23,7 @@ const drawSquareContents = (player, board) => {
 };
 
 const playerEventListeners = (player, enemyBoard) => {
-  const playerBoard = document.querySelectorAll('.p1 .board .square');
+  const playerBoard = document.querySelectorAll('.p2 .board .square');
   Array.from(playerBoard).forEach((square) => {
     square.addEventListener('pointerdown', (e) => {
       const squareY = e.target.attributes['data-y'].value;
