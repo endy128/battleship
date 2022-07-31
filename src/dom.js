@@ -22,14 +22,20 @@ const drawSquareContents = (player, board) => {
   });
 };
 
-const playerEventListeners = (player, enemyBoard) => {
+const playerEventListeners = (p1, p2Board, p2, p1Board) => {
   const playerBoard = document.querySelectorAll('.p2 .board .square');
   Array.from(playerBoard).forEach((square) => {
     square.addEventListener('pointerdown', (e) => {
-      const squareY = e.target.attributes['data-y'].value;
-      const squareX = e.target.attributes['data-x'].value;
-      player.attack(enemyBoard, { y: squareY, x: squareX });
-      drawSquareContents('p2', enemyBoard.getBoard());
+      const squareY = e.target.dataset.y;
+      const squareX = e.target.dataset.x;
+      p1.attack(p2Board, { y: squareY, x: squareX });
+      drawSquareContents('p2', p2Board.getBoard());
+      if (p2Board.areAllShipsSunk() === true) {
+        console.log('All P2 ships SUNK!!');
+        return;
+      }
+      p2.autoAttack(p1Board);
+      drawSquareContents('p1', p1Board.getBoard());
     });
   });
 };

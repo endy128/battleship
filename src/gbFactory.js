@@ -1,6 +1,8 @@
 import shipFactory from './shipFactory';
 
-const gameboardFactory = () => {
+const _NUMBER_OF_SHIPS = 6;
+
+const gameboardFactory = (playerName) => {
   const sunkShips = [];
   let s1;
   let s2;
@@ -21,9 +23,9 @@ const gameboardFactory = () => {
     ['', '', '', '', '', '', '', '', '', ''],
   ];
   const areAllShipsSunk = () => {
-    // set number of ships
-    if (sunkShips.length >= 2) {
+    if (sunkShips.length >= _NUMBER_OF_SHIPS) {
       return true;
+      console.log('ALL SHIPS SUNK!');
     }
     return false;
   };
@@ -63,36 +65,42 @@ const gameboardFactory = () => {
           // console.log(s1.getHits());
           if (s1.isSunk() === true) {
             sunkShips.push('s1');
+            console.log(`${playerName} ship 1: SUNK!`);
           }
           break;
         case 's2':
           s2.setHit(obj.y, obj.x);
           if (s2.isSunk() === true) {
             sunkShips.push('s2');
+            console.log(`${playerName} ship 2: SUNK!`);
           }
           break;
         case 's3':
           s3.setHit(obj.y, obj.x);
           if (s3.isSunk() === true) {
             sunkShips.push('s3');
+            console.log(`${playerName} ship 3: SUNK!`);
           }
           break;
         case 's4':
           s4.setHit(obj.y, obj.x);
           if (s4.isSunk() === true) {
             sunkShips.push('s4');
+            console.log(`${playerName} ship 4: SUNK!`);
           }
           break;
         case 's5':
           s5.setHit(obj.y, obj.x);
           if (s5.isSunk() === true) {
             sunkShips.push('s5');
+            console.log(`${playerName} ship 5: SUNK!`);
           }
           break;
         case 's6':
           s6.setHit(obj.y, obj.x);
           if (s6.isSunk() === true) {
             sunkShips.push('s6');
+            console.log(`${playerName} ship 6: SUNK!`);
           }
           break;
         default:
