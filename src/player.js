@@ -7,7 +7,12 @@ const playerFactory = () => {
   const autoAttack = (enemyBoard) => {
     const ranX = Math.floor(Math.random() * 9);
     const ranY = Math.floor(Math.random() * 9);
-    enemyBoard.receiveAttack({ y: ranY, x: ranX });
+    if (enemyBoard.getSquareContents({ y: ranY, x: ranX }) === 'm'
+      || enemyBoard.getSquareContents({ y: ranY, x: ranX }) === 'h') {
+      autoAttack(enemyBoard);
+    } else {
+      enemyBoard.receiveAttack({ y: ranY, x: ranX });
+    }
   };
   return {
     autoAttack,

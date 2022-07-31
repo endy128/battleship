@@ -27,6 +27,7 @@ const gameboardFactory = () => {
     }
     return false;
   };
+  const getSquareContents = (obj) => board[obj.y][obj.x];
   const placeShip = (name, size, y, x, direction) => {
     const shipCoords = [];
     if (direction === 'v') {
@@ -123,6 +124,7 @@ const gameboardFactory = () => {
     getBoard,
     sunkShips,
     areAllShipsSunk,
+    getSquareContents,
   };
 };
 
