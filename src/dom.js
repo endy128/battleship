@@ -22,4 +22,16 @@ const drawSquareContents = (player, board) => {
   });
 };
 
-export { drawBoard, drawSquareContents };
+const playerEventListeners = (player, enemyBoard) => {
+  const playerBoard = document.querySelectorAll('.p1 .board .square');
+  Array.from(playerBoard).forEach((square) => {
+    square.addEventListener('pointerdown', (e) => {
+      const squareY = e.target.attributes['data-y'].value;
+      const squareX = e.target.attributes['data-x'].value;
+      player.attack(enemyBoard, { y: squareY, x: squareX });
+      drawSquareContents('p2', enemyBoard.getBoard());
+    });
+  });
+};
+
+export { drawBoard, drawSquareContents, playerEventListeners };

@@ -103,7 +103,7 @@ const gameboardFactory = () => {
   const setup = () => {
     const s1Coords = placeShip('s1', 4, 0, 2, 'v');
     const s2Coords = placeShip('s2', 2, 1, 4, 'h');
-    const s3Coords = placeShip('s3', 5, 3, 6, 'v');
+    const s3Coords = placeShip('s3', 5, 3, 5, 'v');
     const s4Coords = placeShip('s4', 3, 7, 1, 'h');
     const s5Coords = placeShip('s5', 5, 9, 0, 'h');
     const s6Coords = placeShip('s6', 3, 4, 7, 'h');
