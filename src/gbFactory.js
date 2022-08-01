@@ -1,6 +1,12 @@
 import shipFactory from './shipFactory';
 
-const _NUMBER_OF_SHIPS = 6;
+const NUMBER_OF_SHIPS = 6;
+const S1_SIZE = 4;
+const S2_SIZE = 2;
+const S3_SIZE = 5;
+const S4_SIZE = 3;
+const S5_SIZE = 5;
+const S6_SIZE = 3;
 
 const gameboardFactory = (playerName) => {
   const sunkShips = [];
@@ -23,9 +29,9 @@ const gameboardFactory = (playerName) => {
     ['', '', '', '', '', '', '', '', '', ''],
   ];
   const areAllShipsSunk = () => {
-    if (sunkShips.length >= _NUMBER_OF_SHIPS) {
+    if (sunkShips.length >= NUMBER_OF_SHIPS) {
+      console.log(`ALL ${playerName}'s SHIPS SUNK!`);
       return true;
-      console.log('ALL SHIPS SUNK!');
     }
     return false;
   };
@@ -51,7 +57,7 @@ const gameboardFactory = (playerName) => {
     return shipCoords;
   };
   const receiveAttack = (obj) => {
-    // m = miss, h = hit
+    // m == miss, h == hit. '' == empty
     if (board[obj.y][obj.x] === '') {
       board[obj.y][obj.x] = 'm';
     }
@@ -62,7 +68,6 @@ const gameboardFactory = (playerName) => {
       switch (hitShip) {
         case 's1':
           s1.setHit(obj.y, obj.x);
-          // console.log(s1.getHits());
           if (s1.isSunk() === true) {
             sunkShips.push('s1');
             console.log(`${playerName} ship 1: SUNK!`);
@@ -107,22 +112,63 @@ const gameboardFactory = (playerName) => {
           console.log('Error, no ship matched');
       }
     }
-    // console.table(board);
   };
   const setup = () => {
-    const s1Coords = placeShip('s1', 4, 0, 2, 'v');
-    const s2Coords = placeShip('s2', 2, 1, 4, 'h');
-    const s3Coords = placeShip('s3', 5, 3, 5, 'v');
-    const s4Coords = placeShip('s4', 3, 7, 1, 'h');
-    const s5Coords = placeShip('s5', 5, 9, 0, 'h');
-    const s6Coords = placeShip('s6', 3, 4, 7, 'h');
-    s1 = shipFactory(4, s1Coords);
-    s2 = shipFactory(2, s2Coords);
-    s3 = shipFactory(5, s3Coords);
-    s4 = shipFactory(3, s4Coords);
-    s5 = shipFactory(5, s5Coords);
-    s6 = shipFactory(3, s6Coords);
+    // const s1Coords = placeShip('s1', 4, 0, 2, 'v');
+    // const s2Coords = placeShip('s2', 2, 1, 4, 'h');
+    // const s3Coords = placeShip('s3', 5, 3, 5, 'v');
+    // const s4Coords = placeShip('s4', 3, 7, 1, 'h');
+    // const s5Coords = placeShip('s5', 5, 9, 0, 'h');
+    // const s6Coords = placeShip('s6', 3, 4, 7, 'h');
+    // s1 = shipFactory(4, s1Coords);
+    // s2 = shipFactory(2, s2Coords);
+    // s3 = shipFactory(5, s3Coords);
+    // s4 = shipFactory(3, s4Coords);
+    // s5 = shipFactory(5, s5Coords);
+    // s6 = shipFactory(3, s6Coords);
+    s1 = autoSetup('s1', S1_SIZE);
+    s2 = autoSetup('s2', S2_SIZE);
+    s3 = autoSetup('s3', S3_SIZE);
+    s4 = autoSetup('s4', S4_SIZE);
+    s5 = autoSetup('s5', S5_SIZE);
+    s6 = autoSetup('s6', S6_SIZE);
+
     return board;
+  };
+
+  const getRandomNum = (max) => Math.floor(Math.random() * max);
+
+  const checkAvailableSpace = (obj, direction, size) => {
+    if (direction === 'h') {
+      const endCoord = obj.x + size;
+      for (let i = obj.x; i < endCoord; i++) {
+        const content = board[obj.y][i];
+        if (content !== '') return false;
+      }
+      return true;
+    }
+    if (direction === 'v') {
+      const endCoord = obj.y + size;
+      for (let i = obj.y; i < endCoord; i++) {
+        const content = board[i][obj.x];
+        if (content !== '') return false;
+      }
+      return true;
+    }
+  };
+  const autoSetup = (name, size) => {
+    let direction = 'v';
+    if (getRandomNum(2) === 1) direction = 'h';
+    const maxCoord = 11 - size;
+    const y = getRandomNum(maxCoord);
+    const x = getRandomNum(maxCoord);
+    if (getSquareContents({ y, x }) === '') {
+      if (checkAvailableSpace({ y, x }, direction, size) === true) {
+        const shipCoords = placeShip(name, size, y, x, direction);
+        return shipFactory(size, shipCoords);
+      }
+    }
+    autoSetup(name, size);
   };
   const getBoard = () => board;
   return {
