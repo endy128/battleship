@@ -1,4 +1,4 @@
-import gameboardFactory from './gbFactory';
+import gameboardFactory from './gameboard';
 
 const playerFactory = () => {
   const attack = (enemyBoard, enemyCoords) => {

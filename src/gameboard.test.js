@@ -1,4 +1,4 @@
-import gameboardFactory from './gbFactory';
+import gameboardFactory from './gameboard';
 
 describe('Gameboard factory creates a board', () => {
   const board = gameboardFactory().setup();

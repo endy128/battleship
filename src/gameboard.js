@@ -135,7 +135,7 @@ const gameboardFactory = (playerName) => {
     }
     return false;
   };
-  const autoSetup = (name, size) => {
+  const autoPlaceShip = (name, size) => {
     let direction = 'v';
     if (getRandomNum(2) === 1) direction = 'h';
     const maxCoord = 11 - size;
@@ -145,7 +145,7 @@ const gameboardFactory = (playerName) => {
       const shipCoords = placeShip(name, size, y, x, direction);
       return (shipCoords);
     }
-    autoSetup(name, size);
+    autoPlaceShip(name, size);
   };
   const setup = () => {
     // const s1Coords = placeShip('s1', 4, 0, 2, 'v');
@@ -160,12 +160,12 @@ const gameboardFactory = (playerName) => {
     // s4 = shipFactory(3, s4Coords);
     // s5 = shipFactory(5, s5Coords);
     // s6 = shipFactory(3, s6Coords);
-    const s1Coords = autoSetup('s1', S1_SIZE);
-    const s2Coords = autoSetup('s2', S2_SIZE);
-    const s3Coords = autoSetup('s3', S3_SIZE);
-    const s4Coords = autoSetup('s4', S4_SIZE);
-    const s5Coords = autoSetup('s5', S5_SIZE);
-    const s6Coords = autoSetup('s6', S6_SIZE);
+    const s1Coords = autoPlaceShip('s1', S1_SIZE);
+    const s2Coords = autoPlaceShip('s2', S2_SIZE);
+    const s3Coords = autoPlaceShip('s3', S3_SIZE);
+    const s4Coords = autoPlaceShip('s4', S4_SIZE);
+    const s5Coords = autoPlaceShip('s5', S5_SIZE);
+    const s6Coords = autoPlaceShip('s6', S6_SIZE);
     s1 = shipFactory(S1_SIZE, s1Coords);
     s2 = shipFactory(S2_SIZE, s2Coords);
     s3 = shipFactory(S3_SIZE, s3Coords);
