@@ -10,10 +10,10 @@ const initaliseGame = (() => {
   const player2 = playerFactory();
   const p1Board = gameboardFactory('p1');
   const p2Board = gameboardFactory('p2');
-  p1Board.setup();
+  // p1Board.manualSetup();
   p2Board.setup();
-  drawSquareContents('p1', p1Board.getBoard());
-  drawSquareContents('p2', p2Board.getBoard(), true);
+  drawSquareContents('p1', p1Board.getBoard(), false);
+  drawSquareContents('p2', p2Board.getBoard(), false);
   playerEventListeners(player1, p2Board, player2, p1Board);
 })();
 

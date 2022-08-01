@@ -53,7 +53,7 @@ button {
   width: 100%;
 }
 
-.fire {
+.messages {
   display: flex;
   justify-content: center;
   margin-top: 12px;

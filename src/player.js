@@ -1,5 +1,3 @@
-import gameboardFactory from './gameboard';
-
 const playerFactory = () => {
   const attack = (enemyBoard, enemyCoords) => {
     enemyBoard.receiveAttack({ y: enemyCoords.y, x: enemyCoords.x });
@@ -11,7 +9,7 @@ const playerFactory = () => {
 
     enemyBoard.getBoard().forEach((array, coordY) => {
       array.forEach((element, coordX) => {
-        if (element === 'm' || element == 'h') {
+        if (element === 'm' || element === 'h') {
           squaresAlreadyTargeted.push({ y: coordY, x: coordX });
         }
       });

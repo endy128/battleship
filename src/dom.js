@@ -1,7 +1,7 @@
 const drawBoard = (player) => {
   const board = document.querySelector(`.${player} .board`);
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 10; i += 1) {
+    for (let j = 0; j < 10; j += 1) {
       const div = document.createElement('div');
       div.dataset.y = i;
       div.dataset.x = j;
@@ -11,13 +11,13 @@ const drawBoard = (player) => {
   }
 };
 
-const drawSquareContents = (player, board, areShipsHidden) => {
+const drawSquareContents = (player, board, hideShips) => {
   board.forEach((array, coordY) => {
     array.forEach((element, coordX) => {
       const y = coordY;
       const x = coordX;
       const div = document.querySelector(`.${player} [data-y="${y}"][data-x="${x}"]`);
-      if (areShipsHidden === true) {
+      if (hideShips === true) {
         if (/[s]\d/.test(element)) {
           return;
         }
@@ -28,12 +28,12 @@ const drawSquareContents = (player, board, areShipsHidden) => {
 };
 
 const playerEventListeners = (p1, p2Board, p2, p1Board) => {
-  const playerBoard = document.querySelectorAll('.p2 .board .square');
-  Array.from(playerBoard).forEach((square) => {
+  const enemyBoard = document.querySelectorAll('.p2 .board .square');
+  Array.from(enemyBoard).forEach((square) => {
     square.addEventListener('pointerdown', (e) => {
-      const squareY = e.target.dataset.y;
-      const squareX = e.target.dataset.x;
-      p1.attack(p2Board, { y: squareY, x: squareX });
+      const { y } = e.target.dataset;
+      const { x } = e.target.dataset;
+      p1.attack(p2Board, { y, x });
       drawSquareContents('p2', p2Board.getBoard(), true);
       if (p2Board.areAllShipsSunk() === true) {
         console.log('All P2 ships SUNK!!');
@@ -43,6 +43,32 @@ const playerEventListeners = (p1, p2Board, p2, p1Board) => {
       drawSquareContents('p1', p1Board.getBoard());
     });
   });
+  const playerBoard = document.querySelectorAll('.p1 .board .square');
+  Array.from(playerBoard).forEach((square) => {
+    square.addEventListener('pointerdown', (e) => {
+      const direction = 'v';
+      const y = Number(e.target.dataset.y);
+      const x = Number(e.target.dataset.x);
+      p1Board.playerPlaceShip({ y, x, direction }, 's1');
+      drawSquareContents('p1', p1Board.getBoard());
+    });
+  });
 };
 
-export { drawBoard, drawSquareContents, playerEventListeners };
+// const pickSquare = (name, size) => {
+//   const direction = 'h';
+//   const playerBoard = document.querySelectorAll('.p1 .board .square');
+//   Array.from(playerBoard).forEach((square) => {
+//     square.addEventListener('pointerdown', (e) => {
+//       const { y } = e.target.dataset;
+//       const { x } = e.target.dataset;
+//       manualSetup({ x, y, direction });
+//     });
+//   });
+//   // get square clicked
+//   // check it's valid, if it is send error
+// };
+
+export {
+  drawBoard, drawSquareContents, playerEventListeners,
+};

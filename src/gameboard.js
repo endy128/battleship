@@ -1,4 +1,5 @@
 import shipFactory from './shipFactory';
+import { removeSetUpListeners } from './dom';
 
 const NUMBER_OF_SHIPS = 6;
 const S1_SIZE = 4;
@@ -7,6 +8,9 @@ const S3_SIZE = 5;
 const S4_SIZE = 3;
 const S5_SIZE = 5;
 const S6_SIZE = 3;
+
+let counter = 1;
+let isSetUpComplete = false;
 
 const gameboardFactory = (playerName) => {
   const sunkShips = [];
@@ -35,12 +39,14 @@ const gameboardFactory = (playerName) => {
     }
     return false;
   };
+
   const getSquareContents = (obj) => board[obj.y][obj.x];
+
   const placeShip = (name, size, y, x, direction) => {
     const shipCoords = [];
     if (direction === 'v') {
       const end = size + y;
-      for (let i = y; i < end; i++) {
+      for (let i = y; i < end; i += 1) {
         board[i][x] = name;
         // add each x & y coordinates to the array for later adding to the ship when constructed
         shipCoords.push({ x, y: i });
@@ -48,7 +54,7 @@ const gameboardFactory = (playerName) => {
     }
     if (direction === 'h') {
       const end = size + x;
-      for (let i = x; i < end; i++) {
+      for (let i = x; i < end; i += 1) {
         board[y][i] = name;
         // add each x & y coordinates to the array for later adding to the ship when constructed
         shipCoords.push({ x: i, y });
@@ -119,7 +125,7 @@ const gameboardFactory = (playerName) => {
   const checkAvailableSpace = (obj, direction, size) => {
     if (direction === 'h') {
       const endCoord = obj.x + size;
-      for (let i = obj.x; i < endCoord; i++) {
+      for (let i = obj.x; i < endCoord; i += 1) {
         const content = board[obj.y][i];
         if (content !== '') return false;
       }
@@ -127,7 +133,7 @@ const gameboardFactory = (playerName) => {
     }
     if (direction === 'v') {
       const endCoord = obj.y + size;
-      for (let i = obj.y; i < endCoord; i++) {
+      for (let i = obj.y; i < endCoord; i += 1) {
         const content = board[i][obj.x];
         if (content !== '') return false;
       }
@@ -143,7 +149,7 @@ const gameboardFactory = (playerName) => {
     const x = getRandomNum(maxCoord);
     if (getSquareContents({ y, x }) === '' && checkAvailableSpace({ y, x }, direction, size) === true) {
       const shipCoords = placeShip(name, size, y, x, direction);
-      return (shipCoords);
+      return shipCoords;
     }
     autoPlaceShip(name, size);
   };
@@ -173,7 +179,56 @@ const gameboardFactory = (playerName) => {
     s5 = shipFactory(S5_SIZE, s5Coords);
     s6 = shipFactory(S6_SIZE, s6Coords);
 
-    return board;
+    // return board;
+  };
+
+  const playerPlaceShip = (obj, name) => {
+    switch (counter) {
+      case 1: {
+        const s1Coords = placeShip('s1', S1_SIZE, obj.y, obj.x, obj.direction);
+        s1 = shipFactory(S1_SIZE, s1Coords);
+        counter += 1;
+        break;
+      }
+      case 2: {
+        const s2Coords = placeShip('s2', S2_SIZE, obj.y, obj.x, obj.direction);
+        s2 = shipFactory(S2_SIZE, s2Coords);
+        counter += 1;
+        break;
+      }
+      case 3: {
+        const s3Coords = placeShip('s3', S3_SIZE, obj.y, obj.x, obj.direction);
+        s3 = shipFactory(S3_SIZE, s3Coords);
+        counter += 1;
+        break;
+      }
+      case 4: {
+        const s4Coords = placeShip('s4', S4_SIZE, obj.y, obj.x, obj.direction);
+        s4 = shipFactory(S4_SIZE, s4Coords);
+        counter += 1;
+        break;
+      }
+      case 5: {
+        const s5Coords = placeShip('s5', S5_SIZE, obj.y, obj.x, obj.direction);
+        s5 = shipFactory(S5_SIZE, s5Coords);
+        counter += 1;
+        break;
+      }
+      case 6: {
+        const s6Coords = placeShip('s6', S6_SIZE, obj.y, obj.x, obj.direction);
+        s6 = shipFactory(S6_SIZE, s6Coords);
+        isSetUpComplete = true;
+        setUpComplete();
+        break;
+      }
+      default: {
+        console.log(`Unable to place ship: ${name}`);
+      }
+    }
+  };
+
+  const setUpComplete = () => {
+    removeSetUpListeners();
   };
 
   const getBoard = () => board;
@@ -185,6 +240,7 @@ const gameboardFactory = (playerName) => {
     sunkShips,
     areAllShipsSunk,
     getSquareContents,
+    playerPlaceShip,
   };
 };
 
