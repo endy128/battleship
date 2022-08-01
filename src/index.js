@@ -13,7 +13,7 @@ const initaliseGame = () => {
   p1Board.setup();
   p2Board.setup();
   drawSquareContents('p1', p1Board.getBoard());
-  drawSquareContents('p2', p2Board.getBoard(), false);
+  drawSquareContents('p2', p2Board.getBoard(), true);
   playerEventListeners(player1, p2Board, player2, p1Board);
 };
 

@@ -113,28 +113,6 @@ const gameboardFactory = (playerName) => {
       }
     }
   };
-  const setup = () => {
-    // const s1Coords = placeShip('s1', 4, 0, 2, 'v');
-    // const s2Coords = placeShip('s2', 2, 1, 4, 'h');
-    // const s3Coords = placeShip('s3', 5, 3, 5, 'v');
-    // const s4Coords = placeShip('s4', 3, 7, 1, 'h');
-    // const s5Coords = placeShip('s5', 5, 9, 0, 'h');
-    // const s6Coords = placeShip('s6', 3, 4, 7, 'h');
-    // s1 = shipFactory(4, s1Coords);
-    // s2 = shipFactory(2, s2Coords);
-    // s3 = shipFactory(5, s3Coords);
-    // s4 = shipFactory(3, s4Coords);
-    // s5 = shipFactory(5, s5Coords);
-    // s6 = shipFactory(3, s6Coords);
-    s1 = autoSetup('s1', S1_SIZE);
-    s2 = autoSetup('s2', S2_SIZE);
-    s3 = autoSetup('s3', S3_SIZE);
-    s4 = autoSetup('s4', S4_SIZE);
-    s5 = autoSetup('s5', S5_SIZE);
-    s6 = autoSetup('s6', S6_SIZE);
-
-    return board;
-  };
 
   const getRandomNum = (max) => Math.floor(Math.random() * max);
 
@@ -155,6 +133,7 @@ const gameboardFactory = (playerName) => {
       }
       return true;
     }
+    return false;
   };
   const autoSetup = (name, size) => {
     let direction = 'v';
@@ -162,14 +141,41 @@ const gameboardFactory = (playerName) => {
     const maxCoord = 11 - size;
     const y = getRandomNum(maxCoord);
     const x = getRandomNum(maxCoord);
-    if (getSquareContents({ y, x }) === '') {
-      if (checkAvailableSpace({ y, x }, direction, size) === true) {
-        const shipCoords = placeShip(name, size, y, x, direction);
-        return shipFactory(size, shipCoords);
-      }
+    if (getSquareContents({ y, x }) === '' && checkAvailableSpace({ y, x }, direction, size) === true) {
+      const shipCoords = placeShip(name, size, y, x, direction);
+      return (shipCoords);
     }
     autoSetup(name, size);
   };
+  const setup = () => {
+    // const s1Coords = placeShip('s1', 4, 0, 2, 'v');
+    // const s2Coords = placeShip('s2', 2, 1, 4, 'h');
+    // const s3Coords = placeShip('s3', 5, 3, 5, 'v');
+    // const s4Coords = placeShip('s4', 3, 7, 1, 'h');
+    // const s5Coords = placeShip('s5', 5, 9, 0, 'h');
+    // const s6Coords = placeShip('s6', 3, 4, 7, 'h');
+    // s1 = shipFactory(4, s1Coords);
+    // s2 = shipFactory(2, s2Coords);
+    // s3 = shipFactory(5, s3Coords);
+    // s4 = shipFactory(3, s4Coords);
+    // s5 = shipFactory(5, s5Coords);
+    // s6 = shipFactory(3, s6Coords);
+    const s1Coords = autoSetup('s1', S1_SIZE);
+    const s2Coords = autoSetup('s2', S2_SIZE);
+    const s3Coords = autoSetup('s3', S3_SIZE);
+    const s4Coords = autoSetup('s4', S4_SIZE);
+    const s5Coords = autoSetup('s5', S5_SIZE);
+    const s6Coords = autoSetup('s6', S6_SIZE);
+    s1 = shipFactory(S1_SIZE, s1Coords);
+    s2 = shipFactory(S2_SIZE, s2Coords);
+    s3 = shipFactory(S3_SIZE, s3Coords);
+    s4 = shipFactory(S4_SIZE, s4Coords);
+    s5 = shipFactory(S5_SIZE, s5Coords);
+    s6 = shipFactory(S6_SIZE, s6Coords);
+
+    return board;
+  };
+
   const getBoard = () => board;
   return {
     receiveAttack,
