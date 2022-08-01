@@ -1,3 +1,7 @@
+import p1Board from './index';
+
+let myFunction;
+
 const drawBoard = (player) => {
   const board = document.querySelector(`.${player} .board`);
   for (let i = 0; i < 10; i += 1) {
@@ -45,30 +49,35 @@ const playerEventListeners = (p1, p2Board, p2, p1Board) => {
   });
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
-    square.addEventListener('pointerdown', (e) => {
-      const direction = 'v';
-      const y = Number(e.target.dataset.y);
-      const x = Number(e.target.dataset.x);
-      p1Board.playerPlaceShip({ y, x, direction }, 's1');
-      drawSquareContents('p1', p1Board.getBoard());
-    });
+    square.addEventListener('pointerdown', manuallyPlaceShip);
+    // const direction = 'v';
+    // const y = Number(e.target.dataset.y);
+    // const x = Number(e.target.dataset.x);
+    // p1Board.playerPlaceShip({ y, x, direction }, 's1');
+    // drawSquareContents('p1', p1Board.getBoard());
   });
 };
 
-// const pickSquare = (name, size) => {
-//   const direction = 'h';
-//   const playerBoard = document.querySelectorAll('.p1 .board .square');
-//   Array.from(playerBoard).forEach((square) => {
-//     square.addEventListener('pointerdown', (e) => {
-//       const { y } = e.target.dataset;
-//       const { x } = e.target.dataset;
-//       manualSetup({ x, y, direction });
-//     });
-//   });
-//   // get square clicked
-//   // check it's valid, if it is send error
-// };
+const manuallyPlaceShip = (e) => {
+  const direction = 'v';
+  const y = Number(e.target.dataset.y);
+  const x = Number(e.target.dataset.x);
+  p1Board.playerPlaceShip({ y, x, direction }, 's1');
+  drawSquareContents('p1', p1Board.getBoard());
+};
+
+const removeSetUpListeners = () => {
+  console.log('remove event listener');
+  const playerBoard = document.querySelectorAll('.p1 .board .square');
+  Array.from(playerBoard).forEach((square) => {
+    try {
+      square.removeEventListener('pointerdown', manuallyPlaceShip);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+};
 
 export {
-  drawBoard, drawSquareContents, playerEventListeners,
+  drawBoard, drawSquareContents, playerEventListeners, removeSetUpListeners,
 };

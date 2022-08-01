@@ -182,6 +182,10 @@ const gameboardFactory = (playerName) => {
     // return board;
   };
 
+  const setUpComplete = () => {
+    removeSetUpListeners();
+  };
+
   const playerPlaceShip = (obj, name) => {
     switch (counter) {
       case 1: {
@@ -225,10 +229,6 @@ const gameboardFactory = (playerName) => {
         console.log(`Unable to place ship: ${name}`);
       }
     }
-  };
-
-  const setUpComplete = () => {
-    removeSetUpListeners();
   };
 
   const getBoard = () => board;
