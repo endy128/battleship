@@ -1,6 +1,6 @@
 import p1Board from './index';
 
-let myFunction;
+let shipPlacementDirection = 'v';
 
 const drawBoard = (player) => {
   const board = document.querySelector(`.${player} .board`);
@@ -31,7 +31,7 @@ const drawSquareContents = (player, board, hideShips) => {
   });
 };
 
-const playerEventListeners = (p1, p2Board, p2, p1Board) => {
+const playerEventListeners = (p1, p2Board, p2) => {
   const enemyBoard = document.querySelectorAll('.p2 .board .square');
   Array.from(enemyBoard).forEach((square) => {
     square.addEventListener('pointerdown', (e) => {
@@ -56,26 +56,45 @@ const playerEventListeners = (p1, p2Board, p2, p1Board) => {
     // p1Board.playerPlaceShip({ y, x, direction }, 's1');
     // drawSquareContents('p1', p1Board.getBoard());
   });
+  const button = document.querySelector('.messages.p1');
+  button.textContent = 'Vertical';
+  button.addEventListener('pointerdown', toggleShipPlacementDirection);
+};
+
+const isPlacementValid = (obj) => {
+  console.log(obj);
+  return true;
 };
 
 const manuallyPlaceShip = (e) => {
-  const direction = 'v';
+  const direction = shipPlacementDirection;
   const y = Number(e.target.dataset.y);
   const x = Number(e.target.dataset.x);
-  p1Board.playerPlaceShip({ y, x, direction }, 's1');
-  drawSquareContents('p1', p1Board.getBoard());
+  if (isPlacementValid({ x, y }) === true) {
+    p1Board.playerPlaceShip({ y, x, direction }, 's1');
+    drawSquareContents('p1', p1Board.getBoard());
+  } else {
+
+  }
 };
 
 const removeSetUpListeners = () => {
   console.log('remove event listener');
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
-    try {
-      square.removeEventListener('pointerdown', manuallyPlaceShip);
-    } catch (error) {
-      console.error(error);
-    }
+    square.removeEventListener('pointerdown', manuallyPlaceShip);
   });
+};
+
+const toggleShipPlacementDirection = () => {
+  const div = document.querySelector('.messages.p1');
+  if (div.textContent === 'Vertical') {
+    div.textContent = 'Horizontal';
+    shipPlacementDirection = 'h';
+  } else {
+    div.textContent = 'Vertical';
+    shipPlacementDirection = 'v';
+  }
 };
 
 export {

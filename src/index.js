@@ -14,7 +14,7 @@ const initaliseGame = () => {
   p2Board.setup();
   drawSquareContents('p1', p1Board.getBoard(), false);
   drawSquareContents('p2', p2Board.getBoard(), false);
-  playerEventListeners(player1, p2Board, player2, p1Board);
+  playerEventListeners(player1, p2Board, player2);
 };
 
 initaliseGame();
