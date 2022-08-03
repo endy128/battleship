@@ -50,6 +50,8 @@ const removeSetUpListeners = () => {
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
     square.removeEventListener('pointerdown', manuallyPlaceShip);
+    square.removeEventListener('pointerover', highlightSquares);
+    square.removeEventListener('pointerout', removeHighlightSquares);
   });
   div.removeEventListener('pointerdown', toggleShipPlacementDirection);
 };
@@ -71,7 +73,6 @@ const isPlacementValid = (obj) => {
 };
 
 const getSquaresToHighlight = (obj) => {
-  console.log(obj);
   const squares = [];
   const dir = shipPlacementDirection;
   let currentShip = p1Board.getCounter();
@@ -95,7 +96,6 @@ const getSquaresToHighlight = (obj) => {
 };
 
 const highlightSquares = (e) => {
-  console.log(e.target.dataset.x);
   const xCoord = Number(e.target.dataset.x);
   const yCoord = Number(e.target.dataset.y);
   const squares = getSquaresToHighlight({ y: yCoord, x: xCoord });
@@ -104,12 +104,9 @@ const highlightSquares = (e) => {
     document.querySelector(`.square[data-x="${square.x}"][data-y="${square.y}"]`)
       .classList.add('selected');
   });
-  e.target.classList.add('selected');
 };
 
 const removeHighlightSquares = (e) => {
-  const div = e.target;
-  div.classList.remove('selected');
   const squares = document.querySelectorAll('.p1 .square');
   squares.forEach((square) => square.classList.remove('selected'));
 };
@@ -148,5 +145,5 @@ const playerEventListeners = (p1, p2Board, p2) => {
 };
 
 export {
-  drawBoard, drawSquareContents, playerEventListeners, removeSetUpListeners,
+  drawBoard, drawSquareContents, playerEventListeners, removeSetUpListeners, removeHighlightSquares,
 };
