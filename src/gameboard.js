@@ -8,8 +8,9 @@ const S3_SIZE = 5;
 const S4_SIZE = 3;
 const S5_SIZE = 5;
 const S6_SIZE = 3;
+const shipSizes = [S1_SIZE, S2_SIZE, S3_SIZE, S4_SIZE, S5_SIZE, S6_SIZE];
 
-let counter = 1;
+let counter = 0;
 let isSetUpComplete = false;
 
 const gameboardFactory = (playerName) => {
@@ -188,39 +189,39 @@ const gameboardFactory = (playerName) => {
 
   const playerPlaceShip = (obj, name) => {
     switch (counter) {
+      case 0: {
+        const s1Coords = placeShip('s1', shipSizes[counter], obj.y, obj.x, obj.direction);
+        s1 = shipFactory(shipSizes[counter], s1Coords);
+        counter += 1;
+        break;
+      }
       case 1: {
-        const s1Coords = placeShip('s1', S1_SIZE, obj.y, obj.x, obj.direction);
-        s1 = shipFactory(S1_SIZE, s1Coords);
+        const s2Coords = placeShip('s2', shipSizes[counter], obj.y, obj.x, obj.direction);
+        s2 = shipFactory(shipSizes[counter], s2Coords);
         counter += 1;
         break;
       }
       case 2: {
-        const s2Coords = placeShip('s2', S2_SIZE, obj.y, obj.x, obj.direction);
-        s2 = shipFactory(S2_SIZE, s2Coords);
+        const s3Coords = placeShip('s3', shipSizes[counter], obj.y, obj.x, obj.direction);
+        s3 = shipFactory(shipSizes[counter], s3Coords);
         counter += 1;
         break;
       }
       case 3: {
-        const s3Coords = placeShip('s3', S3_SIZE, obj.y, obj.x, obj.direction);
-        s3 = shipFactory(S3_SIZE, s3Coords);
+        const s4Coords = placeShip('s4', shipSizes[counter], obj.y, obj.x, obj.direction);
+        s4 = shipFactory(shipSizes[counter], s4Coords);
         counter += 1;
         break;
       }
       case 4: {
-        const s4Coords = placeShip('s4', S4_SIZE, obj.y, obj.x, obj.direction);
-        s4 = shipFactory(S4_SIZE, s4Coords);
+        const s5Coords = placeShip('s5', shipSizes[counter], obj.y, obj.x, obj.direction);
+        s5 = shipFactory(shipSizes[counter], s5Coords);
         counter += 1;
         break;
       }
       case 5: {
-        const s5Coords = placeShip('s5', S5_SIZE, obj.y, obj.x, obj.direction);
-        s5 = shipFactory(S5_SIZE, s5Coords);
-        counter += 1;
-        break;
-      }
-      case 6: {
-        const s6Coords = placeShip('s6', S6_SIZE, obj.y, obj.x, obj.direction);
-        s6 = shipFactory(S6_SIZE, s6Coords);
+        const s6Coords = placeShip('s6', shipSizes[counter], obj.y, obj.x, obj.direction);
+        s6 = shipFactory(shipSizes[counter], s6Coords);
         isSetUpComplete = true;
         setUpComplete();
         break;
@@ -247,5 +248,5 @@ const gameboardFactory = (playerName) => {
 };
 
 export {
-  gameboardFactory, S1_SIZE, S2_SIZE, S3_SIZE, S4_SIZE, S5_SIZE, S6_SIZE,
+  gameboardFactory, S1_SIZE, S2_SIZE, S3_SIZE, S4_SIZE, S5_SIZE, S6_SIZE, shipSizes,
 };

@@ -1,4 +1,5 @@
 import { p1Board } from './index';
+import { counter, shipSizes } from './gameboard';
 
 let shipPlacementDirection = 'v';
 
@@ -29,11 +30,6 @@ const drawSquareContents = (player, board, hideShips) => {
       div.textContent = element;
     });
   });
-};
-
-const isPlacementValid = (obj) => {
-  console.log(obj);
-  return true;
 };
 
 const manuallyPlaceShip = (e) => {
@@ -69,24 +65,53 @@ const toggleShipPlacementDirection = () => {
   }
 };
 
-const highlightSquares = (e) => {
-  const div = e.target;
-  // get direction so we can set following sqaures
-  const direction = document.querySelector('.messages.p1').textContent;
-  div.classList.add('selected');
-  console.log(p1Board.getCounter());
-  switch (p1Board.getCounter()) {
-    case 1: {
-      // use for loop to set following squares to red
-      // need to check if highlighted square is valid first!!!
-      // for (let i =  )
-    } break;
+const isPlacementValid = (obj) => {
+  console.log(obj);
+  return true;
+};
+
+const getSquaresToHighlight = (obj) => {
+  console.log(obj);
+  const squares = [];
+  const dir = shipPlacementDirection;
+  let currentShip = p1Board.getCounter();
+  currentShip = Number(currentShip);
+  const length = shipSizes[currentShip];
+  if (dir === 'h') {
+    const end = obj.x + length;
+    if (end > 10) return false;
+    for (let i = obj.x; i < end; i += 1) {
+      squares.push({ y: obj.y, x: i });
+    }
   }
+  if (dir === 'v') {
+    const end = obj.y + length;
+    if (end > 10) return false;
+    for (let i = obj.y; i < end; i += 1) {
+      squares.push({ y: i, x: obj.x });
+    }
+  }
+  return squares;
+};
+
+const highlightSquares = (e) => {
+  console.log(e.target.dataset.x);
+  const xCoord = Number(e.target.dataset.x);
+  const yCoord = Number(e.target.dataset.y);
+  const squares = getSquaresToHighlight({ y: yCoord, x: xCoord });
+  if (squares === false) return;
+  squares.forEach((square) => {
+    document.querySelector(`.square[data-x="${square.x}"][data-y="${square.y}"]`)
+      .classList.add('selected');
+  });
+  e.target.classList.add('selected');
 };
 
 const removeHighlightSquares = (e) => {
   const div = e.target;
   div.classList.remove('selected');
+  const squares = document.querySelectorAll('.p1 .square');
+  squares.forEach((square) => square.classList.remove('selected'));
 };
 
 const playerEventListeners = (p1, p2Board, p2) => {
