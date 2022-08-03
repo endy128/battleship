@@ -25,6 +25,7 @@ h1 {
 
 .square {
   background-color: rgb(111, 161, 204);
+  cursor: pointer;
 }
 
 .container {
@@ -45,13 +46,6 @@ h1 {
   border-radius: 4px;
 }
 
-button {
-  background: none;
-  width: 100%;
-  border: none;
-  height: 100%;
-  width: 100%;
-}
 
 .messages {
   display: flex;
@@ -64,8 +58,31 @@ button {
   align-items: center;
 }
 
+.messages.p1 {
+  cursor: pointer;
+
+}
+
 .selected {
   background-color: rgba(255, 0, 0, 0.466);
+}
+
+.ship {
+  background-color: gray;
+  color: transparent;
+}
+
+.miss {
+  color: transparent;
+  /* background-color: blue; */
+  background-image: url('img/miss.svg');
+}
+
+.hit {
+  color: transparent;
+  background-color: brown;
+  background-image: url('img/hit.svg');
+
 }
 
 
