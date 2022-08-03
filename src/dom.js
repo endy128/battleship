@@ -1,4 +1,6 @@
-import { p1Board } from './index';
+import {
+  p1Board, p2Board, player1, player2,
+} from './index';
 import { counter, shipSizes } from './gameboard';
 
 let shipPlacementDirection = 'v';
@@ -27,9 +29,18 @@ const drawSquareContents = (player, board, hideShips) => {
           return;
         }
       }
+      if (/[s]\d/.test(element)) {
+        div.classList.add('ship');
+      }
+      if (element === 'm') div.classList.add('miss');
+      if (element === 'h') div.classList.add('hit');
       div.textContent = element;
     });
   });
+};
+
+const message = (player, message) => {
+  document.querySelector(`.messages.${player}`).textContent = message;
 };
 
 const manuallyPlaceShip = (e) => {
@@ -45,7 +56,6 @@ const manuallyPlaceShip = (e) => {
 };
 
 const removeSetUpListeners = () => {
-  console.log('remove event listener');
   const div = document.querySelector('.messages.p1');
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
@@ -68,7 +78,25 @@ const toggleShipPlacementDirection = () => {
 };
 
 const isPlacementValid = (obj) => {
-  console.log(obj);
+  const p1 = p1Board.getBoard();
+  const currentShip = p1Board.getCounter();
+  const length = shipSizes[currentShip];
+  const dir = shipPlacementDirection;
+  if (dir === 'h') {
+    const endCoord = obj.x + length;
+    if ((endCoord) > 10) { return false; }
+    for (let i = obj.x; i < endCoord; i += 1) {
+      if (p1[obj.y][i] !== '') return false;
+    }
+  }
+  if (dir === 'v') {
+    const endCoord = obj.y + length;
+    if ((obj.y + length) > 10) { return false; }
+    for (let i = obj.y; i < endCoord; i += 1) {
+      if (p1[i][obj.x] !== '') return false;
+    }
+  }
+
   return true;
 };
 
@@ -111,39 +139,38 @@ const removeHighlightSquares = (e) => {
   squares.forEach((square) => square.classList.remove('selected'));
 };
 
-const playerEventListeners = (p1, p2Board, p2) => {
-  const enemyBoard = document.querySelectorAll('.p2 .board .square');
-  Array.from(enemyBoard).forEach((square) => {
-    square.addEventListener('pointerdown', (e) => {
-      const { y } = e.target.dataset;
-      const { x } = e.target.dataset;
-      p1.attack(p2Board, { y, x });
-      drawSquareContents('p2', p2Board.getBoard(), true);
-      if (p2Board.areAllShipsSunk() === true) {
-        console.log('All P2 ships SUNK!!');
-        return;
-      }
-      p2.autoAttack(p1Board);
-      drawSquareContents('p1', p1Board.getBoard());
-    });
-  });
+const setupEventListeners = () => {
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
     square.addEventListener('pointerdown', manuallyPlaceShip);
     square.addEventListener('pointerover', highlightSquares);
     square.addEventListener('pointerout', removeHighlightSquares);
-
-    // const direction = 'v';
-    // const y = Number(e.target.dataset.y);
-    // const x = Number(e.target.dataset.x);
-    // p1Board.playerPlaceShip({ y, x, direction }, 's1');
-    // drawSquareContents('p1', p1Board.getBoard());
   });
   const button = document.querySelector('.messages.p1');
   button.textContent = 'Vertical';
   button.addEventListener('pointerdown', toggleShipPlacementDirection);
 };
 
+const setupGameEventListeners = () => {
+  const enemyBoard = document.querySelectorAll('.p2 .board .square');
+  Array.from(enemyBoard).forEach((square) => {
+    square.addEventListener('pointerdown', (e) => {
+      const { y } = e.target.dataset;
+      const { x } = e.target.dataset;
+      player1.attack(p2Board, { y, x });
+      drawSquareContents('p2', p2Board.getBoard(), true);
+      if (p2Board.areAllShipsSunk() === true) {
+        console.log('All P2 ships SUNK!!');
+        return;
+      }
+      player2.autoAttack(p1Board);
+      drawSquareContents('p1', p1Board.getBoard());
+    });
+  });
+};
+
 export {
-  drawBoard, drawSquareContents, playerEventListeners, removeSetUpListeners, removeHighlightSquares,
+  drawBoard, drawSquareContents, setupEventListeners,
+  removeSetUpListeners, removeHighlightSquares,
+  setupGameEventListeners, message,
 };

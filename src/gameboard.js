@@ -1,5 +1,5 @@
 import shipFactory from './shipFactory';
-import { removeSetUpListeners, removeHighlightSquares } from './dom';
+import { message, removeSetUpListeners, setupGameEventListeners } from './dom';
 
 const NUMBER_OF_SHIPS = 6;
 const S1_SIZE = 4;
@@ -185,7 +185,8 @@ const gameboardFactory = (playerName) => {
 
   const setUpComplete = () => {
     removeSetUpListeners();
-    removeHighlightSquares();
+    setupGameEventListeners();
+    message('p1', 'PLAY!! >>>>>');
   };
 
   const playerPlaceShip = (obj, name) => {
