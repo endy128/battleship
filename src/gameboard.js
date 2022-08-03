@@ -230,6 +230,7 @@ const gameboardFactory = (playerName) => {
       }
     }
   };
+  const getCounter = () => counter;
 
   const getBoard = () => board;
   return {
@@ -241,7 +242,10 @@ const gameboardFactory = (playerName) => {
     areAllShipsSunk,
     getSquareContents,
     playerPlaceShip,
+    getCounter,
   };
 };
 
-export default gameboardFactory;
+export {
+  gameboardFactory, S1_SIZE, S2_SIZE, S3_SIZE, S4_SIZE, S5_SIZE, S6_SIZE,
+};
