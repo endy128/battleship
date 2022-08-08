@@ -6,3 +6,5 @@ Practicing TTD for the initial functions and logic. In this exercise I'm trying 
 I found the TDD process really rewarding after getting going, the resulting functions were much more bug-free than my previous coding sessions so I can see the true value in the process, which meant after each test pass I could easily move on!
 
 Using some recursive methods for finding places for the ships to go when setting their placement automatically.
+
+https://endy128.github.io/battleship/
