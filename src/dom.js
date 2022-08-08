@@ -88,7 +88,7 @@ const manuallyPlaceShip = (e) => {
 const removeGameEventListeners = () => {
   const enemyBoard = document.querySelectorAll('.p2 .board .square');
   Array.from(enemyBoard).forEach((square) => {
-    square.removeEventListener('pointerdown', gameEventListeners);
+    square.removeEventListener('pointerup', gameEventListeners);
   });
 };
 
@@ -96,8 +96,8 @@ const removeSetUpListeners = () => {
   const div = document.querySelector('.messages');
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
-    square.removeEventListener('pointerdown', manuallyPlaceShip);
-    square.removeEventListener('pointerover', highlightSquares);
+    square.removeEventListener('pointerup', manuallyPlaceShip);
+    square.removeEventListener('pointermove', highlightSquares);
     square.removeEventListener('pointerout', removeHighlightSquares);
   });
   div.removeEventListener('pointerdown', toggleShipPlacementDirection);
@@ -179,8 +179,8 @@ const removeHighlightSquares = (e) => {
 const setupEventListeners = () => {
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
-    square.addEventListener('pointerdown', manuallyPlaceShip);
-    square.addEventListener('pointerover', highlightSquares);
+    square.addEventListener('pointerup', manuallyPlaceShip);
+    square.addEventListener('pointermove', highlightSquares);
     square.addEventListener('pointerout', removeHighlightSquares);
   });
   const button = document.querySelector('.messages');
@@ -222,7 +222,7 @@ const gameEventListeners = async (e) => {
 const setupGameEventListeners = () => {
   const enemyBoard = document.querySelectorAll('.p2 .board .square');
   Array.from(enemyBoard).forEach((square) => {
-    square.addEventListener('pointerdown', gameEventListeners);
+    square.addEventListener('pointerup', gameEventListeners);
   });
 };
 
