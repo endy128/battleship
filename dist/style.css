@@ -1,12 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
 *, ::before, ::after {
   box-sizing: border-box;
   /* border: 1px dashed red; */
+  font-family: 'Russo One', sans-serif;
+
 }
 
 html,
 body {
-  background-color: gainsboro;
+  /* background-color: gainsboro; */
   justify-content: center;
+}
+
+body {
+  background-image: linear-gradient(to right, rgb(21, 21, 107), rgb(25, 0, 58));
 }
 
 .header {
@@ -16,6 +24,9 @@ body {
 
 h1 {
   margin: 10px;
+  font-size: 4rem;
+  color: white;
+  letter-spacing: 1rem;
 }
 
 .game {
@@ -47,29 +58,39 @@ h1 {
 }
 
 
-.messages {
+.messages,
+.info {
   display: flex;
   justify-content: center;
-  margin-top: 12px;
-  background: none;
-  border: 1px solid black;
+  /* background: none; */
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;  
   height: 50px;
   align-items: center;
+  margin: 3px 48px 0 48px;
+  color: white;
+  font-size: 1.5rem;
 }
 
-.messages.p1 {
+.messages {
+  margin-bottom: 6px;
   cursor: pointer;
-
 }
+
+.messages:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 
 .selected {
-  background-color: rgba(255, 0, 0, 0.466);
+  background-color: rgba(255, 0, 0, 0.384);
 }
 
 .ship {
-  background-color: gray;
+  /* background-color: gray; */
   color: transparent;
+  background-image: url('img/ship.svg');
 }
 
 .miss {

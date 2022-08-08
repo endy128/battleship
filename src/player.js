@@ -1,3 +1,5 @@
+import { clearMessage, getEnemyMessage, message } from './dom';
+
 const playerFactory = () => {
   const attack = (enemyBoard, enemyCoords) => {
     enemyBoard.receiveAttack({ y: enemyCoords.y, x: enemyCoords.x });
@@ -19,13 +21,14 @@ const playerFactory = () => {
       console.log('No spaces left!');
       return;
     }
-
+    // pick another square if it's already been used
     if (squaresAlreadyTargeted.find((e) => e.y === ranY && e.x === ranX)) {
       autoAttack(enemyBoard);
     } else {
       enemyBoard.receiveAttack({ y: ranY, x: ranX });
       if (enemyBoard.areAllShipsSunk() === true) {
-        console.log('All P1 ships SUNK!!');
+        console.log('All P1 ships SUNK!! P2 WINS!!!');
+        removeGameEventListeners();
       }
     }
   };

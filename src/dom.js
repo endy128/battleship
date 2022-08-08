@@ -1,9 +1,10 @@
 import {
   p1Board, p2Board, player1, player2,
 } from './index';
-import { counter, shipSizes } from './gameboard';
+import { shipSizes } from './gameboard';
 
 let shipPlacementDirection = 'v';
+let myTimeout;
 
 const drawBoard = (player) => {
   const board = document.querySelector(`.${player} .board`);
@@ -39,8 +40,37 @@ const drawSquareContents = (player, board, hideShips) => {
   });
 };
 
-const message = (player, message) => {
-  document.querySelector(`.messages.${player}`).textContent = message;
+const getEnemyMessage = () => {
+  const messages = [
+    'Scanning area...',
+    'Calculating next move...',
+    'Checking for enemy ships...',
+    'Taking best shot!',
+    'How do you like this one!?',
+    'You\'ll never find my ships!',
+    'Give up, you\'ll never hit me!',
+    'Try this on for size!',
+    'Hmmmmm, this is a tricky one...',
+    'Uh oh!',
+  ];
+  const rand = Math.floor(Math.random() * 10);
+  return messages[rand];
+};
+
+const message = (i, t, msg) => {
+  document.querySelector('.messages').textContent += msg.charAt(i);
+  myTimeout = setTimeout(() => {
+    ((i < msg.length - 1) ? message(i + 1, t, msg) : false);
+  }, t);
+};
+
+const clearMessage = () => {
+  clearTimeout(myTimeout);
+  document.querySelector('.messages').textContent = '';
+};
+
+const setInfo = (info) => {
+  document.querySelector('.info').textContent = info;
 };
 
 const manuallyPlaceShip = (e) => {
@@ -55,8 +85,15 @@ const manuallyPlaceShip = (e) => {
   }
 };
 
+const removeGameEventListeners = () => {
+  const enemyBoard = document.querySelectorAll('.p2 .board .square');
+  Array.from(enemyBoard).forEach((square) => {
+    square.removeEventListener('pointerdown', gameEventListeners);
+  });
+};
+
 const removeSetUpListeners = () => {
-  const div = document.querySelector('.messages.p1');
+  const div = document.querySelector('.messages');
   const playerBoard = document.querySelectorAll('.p1 .board .square');
   Array.from(playerBoard).forEach((square) => {
     square.removeEventListener('pointerdown', manuallyPlaceShip);
@@ -67,7 +104,7 @@ const removeSetUpListeners = () => {
 };
 
 const toggleShipPlacementDirection = () => {
-  const div = document.querySelector('.messages.p1');
+  const div = document.querySelector('.messages');
   if (div.textContent === 'Vertical') {
     div.textContent = 'Horizontal';
     shipPlacementDirection = 'h';
@@ -146,31 +183,39 @@ const setupEventListeners = () => {
     square.addEventListener('pointerover', highlightSquares);
     square.addEventListener('pointerout', removeHighlightSquares);
   });
-  const button = document.querySelector('.messages.p1');
+  const button = document.querySelector('.messages');
   button.textContent = 'Vertical';
   button.addEventListener('pointerdown', toggleShipPlacementDirection);
+};
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const gameEventListeners = async (e) => {
+  const { y } = e.target.dataset;
+  const { x } = e.target.dataset;
+  player1.attack(p2Board, { y, x });
+  drawSquareContents('p2', p2Board.getBoard(), true);
+  if (p2Board.areAllShipsSunk() === true) {
+    console.log('All P2 ships SUNK!!');
+    removeGameEventListeners();
+    return;
+  }
+  clearMessage();
+  message(0, 10, getEnemyMessage());
+  await sleep(500);
+  player2.autoAttack(p1Board);
+  drawSquareContents('p1', p1Board.getBoard());
 };
 
 const setupGameEventListeners = () => {
   const enemyBoard = document.querySelectorAll('.p2 .board .square');
   Array.from(enemyBoard).forEach((square) => {
-    square.addEventListener('pointerdown', (e) => {
-      const { y } = e.target.dataset;
-      const { x } = e.target.dataset;
-      player1.attack(p2Board, { y, x });
-      drawSquareContents('p2', p2Board.getBoard(), true);
-      if (p2Board.areAllShipsSunk() === true) {
-        console.log('All P2 ships SUNK!!');
-        return;
-      }
-      player2.autoAttack(p1Board);
-      drawSquareContents('p1', p1Board.getBoard());
-    });
+    square.addEventListener('pointerdown', gameEventListeners);
   });
 };
 
 export {
   drawBoard, drawSquareContents, setupEventListeners,
   removeSetUpListeners, removeHighlightSquares,
-  setupGameEventListeners, message,
+  setupGameEventListeners, message, clearMessage, getEnemyMessage, setInfo, removeGameEventListeners,
 };

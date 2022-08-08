@@ -1,5 +1,12 @@
 import shipFactory from './shipFactory';
-import { message, removeSetUpListeners, setupGameEventListeners } from './dom';
+import {
+  clearMessage,
+  message,
+  removeHighlightSquares,
+  removeSetUpListeners,
+  setInfo,
+  setupGameEventListeners,
+} from './dom';
 
 const NUMBER_OF_SHIPS = 6;
 const S1_SIZE = 4;
@@ -14,6 +21,10 @@ let counter = 0;
 let isSetUpComplete = false;
 
 const gameboardFactory = (playerName) => {
+  let formattedPlayerName = 'Unknown Player';
+  if (playerName === 'p1') formattedPlayerName = 'Player 1';
+  if (playerName === 'p2') formattedPlayerName = 'Player 2';
+
   const sunkShips = [];
   let s1;
   let s2;
@@ -35,7 +46,9 @@ const gameboardFactory = (playerName) => {
   ];
   const areAllShipsSunk = () => {
     if (sunkShips.length >= NUMBER_OF_SHIPS) {
-      console.log(`ALL ${playerName}'s SHIPS SUNK!`);
+      setInfo(`ALL ${formattedPlayerName.toUpperCase()}'S SHIPS SUNK!`);
+      if (playerName === 'p1') message(0, 100, 'YOU LOSE!');
+      if (playerName === 'p2') message(0, 100, 'YOU WIN!');
       return true;
     }
     return false;
@@ -77,42 +90,48 @@ const gameboardFactory = (playerName) => {
           s1.setHit(obj.y, obj.x);
           if (s1.isSunk() === true) {
             sunkShips.push('s1');
-            console.log(`${playerName} ship 1: SUNK!`);
+            clearMessage();
+            setInfo(`${formattedPlayerName} Ship #1 SUNK!`);
           }
           break;
         case 's2':
           s2.setHit(obj.y, obj.x);
           if (s2.isSunk() === true) {
             sunkShips.push('s2');
-            console.log(`${playerName} ship 2: SUNK!`);
+            clearMessage();
+            setInfo(`${formattedPlayerName} Ship #2 SUNK!`);
           }
           break;
         case 's3':
           s3.setHit(obj.y, obj.x);
           if (s3.isSunk() === true) {
             sunkShips.push('s3');
-            console.log(`${playerName} ship 3: SUNK!`);
+            clearMessage();
+            setInfo(`${formattedPlayerName} Ship #3 SUNK!`);
           }
           break;
         case 's4':
           s4.setHit(obj.y, obj.x);
           if (s4.isSunk() === true) {
             sunkShips.push('s4');
-            console.log(`${playerName} ship 4: SUNK!`);
+            clearMessage();
+            setInfo(`${formattedPlayerName} Ship #4 SUNK!`);
           }
           break;
         case 's5':
           s5.setHit(obj.y, obj.x);
           if (s5.isSunk() === true) {
             sunkShips.push('s5');
-            console.log(`${playerName} ship 5: SUNK!`);
+            clearMessage();
+            setInfo(`${formattedPlayerName} Ship #5 SUNK!`);
           }
           break;
         case 's6':
           s6.setHit(obj.y, obj.x);
           if (s6.isSunk() === true) {
             sunkShips.push('s6');
-            console.log(`${playerName} ship 6: SUNK!`);
+            clearMessage();
+            setInfo(`${formattedPlayerName} Ship #6 SUNK!`);
           }
           break;
         default:
@@ -184,9 +203,12 @@ const gameboardFactory = (playerName) => {
   };
 
   const setUpComplete = () => {
+    removeHighlightSquares();
     removeSetUpListeners();
     setupGameEventListeners();
-    message('p1', 'PLAY!! >>>>>');
+    clearMessage();
+    setInfo('Set up complete, let\'s play!');
+    message(0, 10, 'You\'re turn...');
   };
 
   const playerPlaceShip = (obj, name) => {
