@@ -188,6 +188,19 @@ const setupEventListeners = () => {
   button.addEventListener('pointerdown', toggleShipPlacementDirection);
 };
 
+const gameover = (winner) => {
+  if (winner === 'p1') {
+    removeGameEventListeners();
+    setInfo('ALL CPU\'S SHIPS HAVE BEEN SUNK!');
+    message(0, 100, 'YOU WIN!');
+  }
+  if (winner === 'p2') {
+    removeGameEventListeners();
+    setInfo('ALL PLAYER 1\'S SHIPS HAVE BEEN SUNK!');
+    message(0, 100, 'YOU LOSE!');
+  }
+};
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const gameEventListeners = async (e) => {
@@ -196,9 +209,7 @@ const gameEventListeners = async (e) => {
   player1.attack(p2Board, { y, x });
   drawSquareContents('p2', p2Board.getBoard(), true);
   if (p2Board.areAllShipsSunk() === true) {
-    setInfo('ALL CPU\'S SHIPS HAVE BEEN SUNK!');
-    message(0, 100, 'YOU WIN!');
-    removeGameEventListeners();
+    gameover('p1');
     return;
   }
   clearMessage();
@@ -220,4 +231,5 @@ export {
   removeSetUpListeners, removeHighlightSquares,
   setupGameEventListeners, message, clearMessage,
   getEnemyMessage, setInfo, removeGameEventListeners,
+  gameover,
 };

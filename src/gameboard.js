@@ -18,7 +18,6 @@ const S6_SIZE = 3;
 const shipSizes = [S1_SIZE, S2_SIZE, S3_SIZE, S4_SIZE, S5_SIZE, S6_SIZE];
 
 let counter = 0;
-let isSetUpComplete = false;
 
 const gameboardFactory = (playerName) => {
   let formattedPlayerName = 'Unknown Player';
@@ -44,11 +43,9 @@ const gameboardFactory = (playerName) => {
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
   ];
+
   const areAllShipsSunk = () => {
     if (sunkShips.length >= NUMBER_OF_SHIPS) {
-      // setInfo(`ALL ${formattedPlayerName.toUpperCase()}'S SHIPS SUNK!`);
-      // if (playerName === 'p1') message(0, 100, 'YOU LOSE!');
-      // if (playerName === 'p2') message(0, 100, 'YOU WIN!');
       return true;
     }
     return false;
@@ -174,18 +171,6 @@ const gameboardFactory = (playerName) => {
     autoPlaceShip(name, size);
   };
   const setup = () => {
-    // const s1Coords = placeShip('s1', 4, 0, 2, 'v');
-    // const s2Coords = placeShip('s2', 2, 1, 4, 'h');
-    // const s3Coords = placeShip('s3', 5, 3, 5, 'v');
-    // const s4Coords = placeShip('s4', 3, 7, 1, 'h');
-    // const s5Coords = placeShip('s5', 5, 9, 0, 'h');
-    // const s6Coords = placeShip('s6', 3, 4, 7, 'h');
-    // s1 = shipFactory(4, s1Coords);
-    // s2 = shipFactory(2, s2Coords);
-    // s3 = shipFactory(5, s3Coords);
-    // s4 = shipFactory(3, s4Coords);
-    // s5 = shipFactory(5, s5Coords);
-    // s6 = shipFactory(3, s6Coords);
     const s1Coords = autoPlaceShip('s1', S1_SIZE);
     const s2Coords = autoPlaceShip('s2', S2_SIZE);
     const s3Coords = autoPlaceShip('s3', S3_SIZE);
@@ -198,8 +183,6 @@ const gameboardFactory = (playerName) => {
     s4 = shipFactory(S4_SIZE, s4Coords);
     s5 = shipFactory(S5_SIZE, s5Coords);
     s6 = shipFactory(S6_SIZE, s6Coords);
-
-    // return board;
   };
 
   const setUpComplete = () => {
@@ -246,7 +229,6 @@ const gameboardFactory = (playerName) => {
       case 5: {
         const s6Coords = placeShip('s6', shipSizes[counter], obj.y, obj.x, obj.direction);
         s6 = shipFactory(shipSizes[counter], s6Coords);
-        isSetUpComplete = true;
         setUpComplete();
         break;
       }
@@ -272,5 +254,5 @@ const gameboardFactory = (playerName) => {
 };
 
 export {
-  gameboardFactory, S1_SIZE, S2_SIZE, S3_SIZE, S4_SIZE, S5_SIZE, S6_SIZE, shipSizes,
+  gameboardFactory, shipSizes,
 };
