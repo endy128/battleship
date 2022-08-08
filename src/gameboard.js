@@ -46,9 +46,9 @@ const gameboardFactory = (playerName) => {
   ];
   const areAllShipsSunk = () => {
     if (sunkShips.length >= NUMBER_OF_SHIPS) {
-      setInfo(`ALL ${formattedPlayerName.toUpperCase()}'S SHIPS SUNK!`);
-      if (playerName === 'p1') message(0, 100, 'YOU LOSE!');
-      if (playerName === 'p2') message(0, 100, 'YOU WIN!');
+      // setInfo(`ALL ${formattedPlayerName.toUpperCase()}'S SHIPS SUNK!`);
+      // if (playerName === 'p1') message(0, 100, 'YOU LOSE!');
+      // if (playerName === 'p2') message(0, 100, 'YOU WIN!');
       return true;
     }
     return false;

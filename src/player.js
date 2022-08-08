@@ -1,4 +1,6 @@
-import { clearMessage, getEnemyMessage, message } from './dom';
+import {
+  clearMessage, getEnemyMessage, message, removeGameEventListeners,
+} from './dom';
 
 const playerFactory = () => {
   const attack = (enemyBoard, enemyCoords) => {
@@ -27,7 +29,8 @@ const playerFactory = () => {
     } else {
       enemyBoard.receiveAttack({ y: ranY, x: ranX });
       if (enemyBoard.areAllShipsSunk() === true) {
-        console.log('All P1 ships SUNK!! P2 WINS!!!');
+        setInfo('ALL PLAYER 1\'S SHIPS HAVE BEEN SUNK!');
+        message(0, 100, 'YOU LOSE!');
         removeGameEventListeners();
       }
     }

@@ -196,7 +196,8 @@ const gameEventListeners = async (e) => {
   player1.attack(p2Board, { y, x });
   drawSquareContents('p2', p2Board.getBoard(), true);
   if (p2Board.areAllShipsSunk() === true) {
-    console.log('All P2 ships SUNK!!');
+    setInfo('ALL CPU\'S SHIPS HAVE BEEN SUNK!');
+    message(0, 100, 'YOU WIN!');
     removeGameEventListeners();
     return;
   }
@@ -217,5 +218,6 @@ const setupGameEventListeners = () => {
 export {
   drawBoard, drawSquareContents, setupEventListeners,
   removeSetUpListeners, removeHighlightSquares,
-  setupGameEventListeners, message, clearMessage, getEnemyMessage, setInfo, removeGameEventListeners,
+  setupGameEventListeners, message, clearMessage,
+  getEnemyMessage, setInfo, removeGameEventListeners,
 };
